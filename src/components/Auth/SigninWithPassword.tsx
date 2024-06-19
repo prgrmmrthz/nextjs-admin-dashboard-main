@@ -2,16 +2,26 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
+import { LoginSchema } from "@/lib/schemas/loginSchema";
+import { signInUser } from "@/app/actions/authActions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SigninWithPassword() {
-  const { handleSubmit, register, formState: { errors, isValid } } = useForm();
+  const router = useRouter();
+  const { handleSubmit, register, formState: { errors, isValid, isSubmitting } } = useForm<LoginSchema>();
   const [data, setData] = useState({
     remember: false,
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: LoginSchema) => {
+    const result = await signInUser(data);
+    if (result.status === 'success') {
+      router.push('/');
+    } else {
+      toast.error(result.error as string);
+    }
   }
 
   return (
@@ -144,12 +154,15 @@ export default function SigninWithPassword() {
       </div>
 
       <div className="mb-4.5">
-        <button
-          type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+        <Button
+          isLoading={isSubmitting}
+          isDisabled={!isValid}
+          fullWidth
+          color='secondary'
+          type='submit'
         >
           Sign In
-        </button>
+        </Button>
       </div>
     </form>
   );

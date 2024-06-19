@@ -66,7 +66,7 @@ export default function RegisterForm() {
                             defaultValue=''
                             label='Password'
                             variant='bordered'
-                            type='password'
+                            type='text'
                             {...register('password')}
                             isInvalid={!!errors.password}
                             errorMessage={errors.password?.message}
