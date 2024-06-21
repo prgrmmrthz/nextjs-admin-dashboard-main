@@ -2,8 +2,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
+import { auth } from "@/auth";
+import { Session } from "next-auth";
+import { Avatar } from "@nextui-org/react";
 
-const DropdownUser = () => {
+type Props = {
+  user: Session['user'];
+}
+
+const DropdownUser = ({ user }: Props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
@@ -13,22 +20,19 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         href="#"
       >
-        <span className="h-12 w-12 rounded-full">
-          <Image
-            width={112}
-            height={112}
-            src="/images/user/user-03.png"
-            style={{
-              width: "auto",
-              height: "auto",
-            }}
-            alt="User"
-            className="overflow-hidden rounded-full"
-          />
-        </span>
+        <Avatar
+          isBordered
+          as='button'
+          className='transition-transform'
+          color='primary'
+          name={user?.name || 'user avatar'}
+          size='sm'
+          src={user?.image || '/images/user/user-03.png'}
+        />
+
 
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
-          <span className="hidden lg:block">Jhon Smith</span>
+          <span className="hidden lg:block">{user?.name}</span>
 
           <svg
             className={`fill-current duration-200 ease-in ${dropdownOpen && "rotate-180"}`}
@@ -72,7 +76,7 @@ const DropdownUser = () => {
 
             <span className="block">
               <span className="block font-medium text-dark dark:text-white">
-                Jhon Smith
+                {user?.name}
               </span>
               <span className="block font-medium text-dark-5 dark:text-dark-6">
                 jonson@nextadmin.com
