@@ -275,6 +275,7 @@ const config: Config = {
       },
       backgroundImage: {
         video: "url('../images/video/video.png')",
+        'dark-gradient': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)'
       },
       content: {
         "icon-copy": 'url("../images/icon/icon-copy-alt.svg")',

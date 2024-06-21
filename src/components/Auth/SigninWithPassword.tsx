@@ -18,7 +18,7 @@ export default function SigninWithPassword() {
   const onSubmit = async (data: LoginSchema) => {
     const result = await signInUser(data);
     if (result.status === 'success') {
-      router.push('/');
+      router.push('/members');
     } else {
       toast.error(result.error as string);
     }
